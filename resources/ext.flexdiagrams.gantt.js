@@ -26,6 +26,7 @@
 	var gantt_proto = new dg.base();
 
 	gantt_proto.initialize = function() {
+		
 		if ( mw.config.get( 'wgAction' ) != 'editdiagram' ) {
 			gantt.config.readonly = true;
 		}
