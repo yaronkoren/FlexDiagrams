@@ -6,7 +6,6 @@
  */
 
 ( function ( $, mw, fd ) {
-	'use strict';
 
 	/**
 	 * Inheritance class for the fd constructor
@@ -50,7 +49,6 @@
 				return $.ajax( {
 					type: 'POST',
 					url: baseUrl + '/api.php',
-					dataType: 'json',
 					data: data
 				} );
 			});
@@ -59,7 +57,7 @@
 		updatePageAndRedirectUser: function( pageName, newText ) {
 			// Display "loading" image - this will go away if/when
 			// the redirect happens.
-			var imagesPath = mw.config.get( 'wgScriptPath' ) + "/extensions/PageDiagrams/images/";
+			var imagesPath = mw.config.get( 'wgScriptPath' ) + "/extensions/FlexDiagrams/images/";
 			$('#bodyContent').append('<div style="position: fixed; left: 50%; top: 30%;"><img src="' + imagesPath + 'loadingbg.png" /></div>' );
 			$('#bodyContent').append('<div style="position: fixed; left: 50%; top: 30%; padding: 48px;"><img src="' + imagesPath + 'loading.gif" /></div>' );
 			$.when( this.updatePage( pageName, newText ) ).then(
@@ -72,7 +70,7 @@
 					}
 				},
 				function errorHandler( jqXHR, textStatus, errorThrown ){
-					var result = jQuery.parseJSON(jqXHR.responseText);
+					var result = JSON.parse(jqXHR.responseText);
 					var text = result.responseText;
 					for ( var i = 0; i < result.errors.length; i++ ) {
 						text += ' ' + result.errors[i].message;

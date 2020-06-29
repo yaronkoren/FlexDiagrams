@@ -20461,41 +20461,39 @@
 	 * @param {Function} done invoked with (err, xml)
 	 */
 	Viewer.prototype.saveXML = function(options, done) {
-
-	  if (!done) {
-	    done = options;
-	    options = {};
-	  }
-
-	  var self = this;
-
-	  var definitions = this._definitions;
-
-	  if (!definitions) {
-	    return done(new Error('no definitions loaded'));
-	  }
-
-	  // allow to fiddle around with definitions
-	  definitions = this._emit('saveXML.start', {
-	    definitions: definitions
+		if (!done) {
+			done = options;
+			options = {};
+		}
+		
+		var self = this;
+		
+		var definitions = this._definitions;
+		
+		if (!definitions) {
+			return done(new Error('no definitions loaded'));
+		}
+		
+		// allow to fiddle around with definitions
+		definitions = this._emit('saveXML.start', {
+			definitions: definitions
 	  }) || definitions;
-
+	  
 	  this._moddle.toXML(definitions, options, function(err, xml) {
-
-	    try {
-	      xml = self._emit('saveXML.serialized', {
-	        error: err,
-	        xml: xml
-	      }) || xml;
-
+		  
+		  try {
+			  xml = self._emit('saveXML.serialized', {
+				  error: err,
+				  xml: xml
+				}) || xml;
+				
 	      self._emit('saveXML.done', {
-	        error: err,
-	        xml: xml
-	      });
+			  error: err,
+			  xml: xml
+			});
 	    } catch (e) {
 	      console.error('error in saveXML life-cycle listener', e);
 	    }
-
 	    done(err, xml);
 	  });
 	};
